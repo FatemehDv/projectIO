@@ -31,44 +31,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        init();
+        GridPane gridPane = new GridPane();
+        new Game(gridPane);
         Scene scene = new Scene(gridPane, 700, 700);
-        primaryStage.setTitle("Chessboard");
+        primaryStage.setTitle("Paint.IO");
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-
-    public void init() {
-        gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        buttons = new Button[maxSize][maxSize];
-        for (int i = 0; i < maxSize; i++) {
-            gridPane.getColumnConstraints().add(new ColumnConstraints(27));
-        }
-        for (int j = 0; j < maxSize; j++) {
-            gridPane.getRowConstraints().add(new RowConstraints(27));
-        }
-        for (int i = 0; i < maxSize; i++) {
-            for (int j = 0; j < maxSize; j++) {
-                buttons[i][j] = new Button();
-                GridPane.setHalignment(buttons[i][j], HPos.CENTER);
-                buttons[i][j].setMaxSize(26, 26);
-                gridPane.add(buttons[i][j], i, j);
-                buttons[i][j].setOnKeyPressed(keyEvent -> {
-                    if (keyEvent.getCode() == KeyCode.UP)
-                        move(currentPosition.x, currentPosition.y - 1);
-                    else if (keyEvent.getCode() == KeyCode.DOWN)
-                        move(currentPosition.x, currentPosition.y + 1);
-                    else if (keyEvent.getCode() == KeyCode.LEFT)
-                        move(currentPosition.x - 1, currentPosition.y);
-                    else if (keyEvent.getCode() == KeyCode.RIGHT)
-                        move(currentPosition.x + 1, currentPosition.y);
-                });
-            }
-        }
-        currentPosition = new Position(0, 0);
-        list.add(new Position(0, 0));
-        buttons[0][0].setStyle("-fx-background-color: BLACK");
     }
 
     public void move(double x, double y) {
