@@ -1,9 +1,9 @@
-package com.example.paintio;
+package com.example.paintio.players;
 
 import javafx.scene.control.Label;
 import java.util.Random;
 
-public class GameComputer extends Players{
+public class GameComputer extends Players {
     Random random;
     public GameComputer(Label[][] labels,int millis){
         this.labels = labels;

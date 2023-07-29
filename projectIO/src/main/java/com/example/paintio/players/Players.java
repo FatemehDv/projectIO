@@ -1,4 +1,4 @@
-package com.example.paintio;
+package com.example.paintio.players;
 
 import javafx.scene.control.Label;
 import javafx.scene.shape.Polygon;
@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Players {
-    int maxSize = 25;
-    Label[][] labels;
-    Position currPos;
-    ArrayList<Position> list = new ArrayList<>();
-    int directX = 0, directY = 0;
+    protected int maxSize = 25;
+    protected Label[][] labels;
+    protected Position currPos;
+    protected ArrayList<Position> list = new ArrayList<>();
+    protected int directX = 0, directY = 0;
     public void init(){}
     public void runMethod(int millis){}
     public void completeColor(double x, double y, String color1, String color2){

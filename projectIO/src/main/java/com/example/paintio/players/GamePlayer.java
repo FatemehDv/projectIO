@@ -1,4 +1,4 @@
-package com.example.paintio;
+package com.example.paintio.players;
 
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;

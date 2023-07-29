@@ -1,12 +1,13 @@
-package com.example.paintio;
+package com.example.paintio.Main;
 
+import com.example.paintio.players.GameComputer;
+import com.example.paintio.players.GamePlayer;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-
 
 public class Game {
     GridPane gridPane;

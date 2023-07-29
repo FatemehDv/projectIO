@@ -1,5 +1,5 @@
 
-package com.example.paintio;
+package com.example.paintio.players;
 
 public class Position implements Comparable<Position>{
     double x;
