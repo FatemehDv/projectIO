@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
+    int millis = 300;
 
     public static void main(String[] args) {
         launch(args);
@@ -30,7 +31,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 
         GridPane gridPane = new GridPane();
-        new Game(gridPane);
+        new Game(gridPane, millis);
         Scene scene = new Scene(gridPane, 700, 700);
         primaryStage.setTitle("Paint.IO");
         primaryStage.setScene(scene);

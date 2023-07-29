@@ -12,11 +12,12 @@ public class Game {
     GridPane gridPane;
     int maxSize = 25;
     Label[][] labels;
+    int millis;
 
-    public Game(GridPane gridPane){
+    public Game(GridPane gridPane,int millis){
         this.gridPane = gridPane;
+        this.millis = millis;
         init();
-
     }
 
     public void init (){
@@ -29,6 +30,7 @@ public class Game {
         for (int j = 0; j < maxSize; j++) {
             gridPane.getRowConstraints().add(new RowConstraints(27));
         }
+
         for (int i = 0; i < maxSize; i++){
             for (int j = 0; j < maxSize; j++){
                 labels[i][j] = new Label("");
@@ -36,14 +38,10 @@ public class Game {
                 labels[i][j].setMaxSize(26, 26);
                 labels[i][j].setStyle("-fx-background-color: #968080");
                 gridPane.add(labels[i][j], i, j);
-
-
             }
         }
-
-        new GamePlayer(labels);
-        new GameComputer(labels);
+        new GamePlayer(labels, millis);
+        new GameComputer(labels, millis);
     }
-
 }
 
