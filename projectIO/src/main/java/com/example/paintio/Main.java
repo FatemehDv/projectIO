@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
-    @FXML
-    private double xOff = 0;
-    @FXML
-    private double yOff = 0;
 
     public static void main(String[] args) {
         launch(args);
