@@ -42,6 +42,7 @@ public class Game {
         }
 
         new GamePlayer(labels);
+        new GameComputer(labels);
     }
 
 }
