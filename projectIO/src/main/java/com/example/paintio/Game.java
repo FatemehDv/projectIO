@@ -3,6 +3,7 @@ package com.example.paintio;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Game {
     GridPane gridPane;
     int maxSize = 25;
+    Label[][] labels;
     Button[][] buttons ;
     Position currPos;
     ArrayList<Position> list = new ArrayList<>();
@@ -42,7 +44,7 @@ public class Game {
 
     public void init (){
         gridPane.setAlignment(Pos.CENTER);
-        buttons = new Button[maxSize][maxSize];
+        labels = new Label[maxSize][maxSize];
 
         for (int i = 0; i < maxSize; i++) {
             gridPane.getColumnConstraints().add(new ColumnConstraints(27));
@@ -52,20 +54,24 @@ public class Game {
         }
         for (int i = 0; i < maxSize; i++){
             for (int j = 0; j < maxSize; j++){
-                buttons[i][j] = new Button();
-                GridPane.setHalignment(buttons[i][j], HPos.CENTER);
-                buttons[i][j].setMaxSize(26, 26);
-                gridPane.add(buttons[i][j], i, j);
-                buttons[i][j].setOnKeyPressed(keyEvent -> {
+                labels[i][j] = new Label("");
+                GridPane.setHalignment(labels[i][j], HPos.CENTER);
+                labels[i][j].setMaxSize(26, 26);
+                gridPane.add(labels[i][j], i, j);
+
+                labels[i][j].setOnKeyPressed(keyEvent -> {
                     if (keyEvent.getCode() == KeyCode.UP) {
                         directX = 0;
                         directY = -1;
+
                     } else if (keyEvent.getCode() == KeyCode.DOWN) {
                         directX = 0;
                         directY = 1;
+
                     } else if (keyEvent.getCode() == KeyCode.LEFT) {
                         directX = -1;
                         directY = 0;
+
                     }else if (keyEvent.getCode() == KeyCode.RIGHT) {
                         directX = 1;
                         directY = 0;
@@ -76,7 +82,7 @@ public class Game {
 
         for (int i = 10; i < 13; i++){
             for (int j = 10; j < 13; j++){
-                buttons[i][j].setStyle("-fx-background-color: GREEN");
+                labels[i][j].setStyle("-fx-background-color: GREEN");
                 list.add(new Position(i, j));
             }
         }
@@ -144,11 +150,11 @@ public class Game {
     }
 
     public boolean checkColor(double x, double y, String color){
-        return buttons[(int) x][(int) y].getStyle().equals("-fx-background-color: " + color);
+        return labels[(int) x][(int) y].getStyle().equals("-fx-background-color: " + color);
     }
 
     public void setColor(double x, double y, String color){
-        buttons[(int) x][(int) y].setStyle("-fx-background-color: " + color);
+        labels[(int) x][(int) y].setStyle("-fx-background-color: " + color);
     }
 
     public static Polygon createPolygon(List<Position> positions, double translateX, double translateY){
