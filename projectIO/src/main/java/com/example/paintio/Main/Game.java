@@ -1,4 +1,4 @@
-package com.example.paintio.Main;
+/*package com.example.paintio.Main;
 
 import com.example.paintio.players.GameComputer;
 import com.example.paintio.players.GamePlayer;
@@ -43,6 +43,7 @@ public class Game {
         }
         new GamePlayer(labels, millis);
         new GameComputer(labels, millis);
+        new GameComputer(labels, millis);
     }
-}
+}*/
 

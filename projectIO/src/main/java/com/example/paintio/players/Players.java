@@ -12,32 +12,40 @@ public class Players {
     protected Position currPos;
     protected ArrayList<Position> list = new ArrayList<>();
     protected int directX = 0, directY = 0;
+    protected List<Position> myPositionsList;
+
+
     public void init(){}
-    public void runMethod(int millis){}
+    public void runMethod(){}
     public void completeColor(double x, double y, String color1, String color2){
 
-        Polygon polygon = createPolygon(list, list.get(0).x, list.get(0).y);
+        Polygon polygon = createPolygon(myPositionsList, myPositionsList.get(0).x, myPositionsList.get(0).y);
         for (int i = 0; i < polygon.getPoints().size(); i += 2) {
             double x1 = polygon.getPoints().get(i);
             double y1 = polygon.getPoints().get(i + 1);
             setColor(x1, y1, color1);
             if (!exist(new Position(x1, y1))) {
-                list.add(new Position(x1, y1));
+                myPositionsList.add(new Position(x1, y1));
             }
         }
         for (int i = 0; i < maxSize; i++) {
             for (int j = 0; j < maxSize; j++) {
                 if (polygon.contains(i, j)) {
                     if (!exist(new Position(i, j))) {
-                        list.add(new Position(i, j));
+                        myPositionsList.add(new Position(i, j));
                     }
+                    else if (checkColor(i, j, "#968080"))
+                        continue;
+
                     setColor(i, j, color1);
                 }
             }
 
         }
-        currPos.x = x;
-        currPos.y = y;
+
+        fixBug();
+        myPositionsList.clear();
+        currPos = new Position(x,y);
         setColor(x, y, color2);
     }
 
@@ -68,5 +76,17 @@ public class Players {
         polygon.getTransforms().add(translate);
 
         return polygon;
+    }
+    public void fixBug() {
+        new Thread(() -> {
+            for (int i = 1; i < maxSize - 1; i++) {
+                for (int j = 1; j < maxSize - 1; j++) {
+                    if (labels[i - 1][j].getStyle().equals(labels[i][j - 1].getStyle())
+                            && labels[i - 1][j].getStyle().equals(labels[i + 1][j].getStyle())
+                            && labels[i - 1][j].getStyle().equals(labels[i][j + 1].getStyle()))
+                        labels[i][j].setStyle(labels[i - 1][j].getStyle());
+                }
+            }
+        }).start();
     }
 }

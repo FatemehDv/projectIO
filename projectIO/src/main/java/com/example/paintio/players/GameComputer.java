@@ -1,15 +1,21 @@
 package com.example.paintio.players;
 
 import javafx.scene.control.Label;
+
+import java.util.List;
 import java.util.Random;
 
 public class GameComputer extends Players {
     Random random;
-    public GameComputer(Label[][] labels,int millis){
+    String stylePrevLabel = "#6dc46d";
+    List<Position> playerPositionsList;
+    public GameComputer(Label[][] labels, List<Position> myList, List<Position> playerList){
+        this.myPositionsList = myList;
+        this.playerPositionsList = playerList;
         this.labels = labels;
         random = new Random();
         init();
-        runMethod(millis);
+        runMethod();
     }
 
     @Override
@@ -17,7 +23,7 @@ public class GameComputer extends Players {
         int rand = random.nextInt(26);
         for (int i = rand; i < rand + 3; i++) {
             for (int j = rand; j < rand + 3; j++) {
-                list.add(new Position(i, j));
+                myPositionsList.add(new Position(i, j));
                 labels[i][j].setStyle("-fx-background-color: #be1717");
             }
         }
@@ -26,7 +32,7 @@ public class GameComputer extends Players {
     }
 
     @Override
-    public void runMethod(int millis){
+    public void runMethod(){
         new Thread(() -> {
             while (true) {
                 int rand = random.nextInt(4) + 1;
@@ -50,7 +56,7 @@ public class GameComputer extends Players {
                 }
                 move(currPos.x + directX, currPos.y + directY);
                 try {
-                    Thread.sleep(millis);
+                    Thread.sleep(300);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -70,19 +76,24 @@ public class GameComputer extends Players {
         if (checkColor(nextX, nextY, "#b66363") && random.nextInt(100) < 70)
             return;
 
-        if (list.size() != 0 && checkColor(nextX, nextY, "#be1717")) {
+        if (myPositionsList.size() != 0 && checkColor(nextX, nextY, "#be1717")) {
             completeColor(nextX, nextY,"#be1717", "#690303");
             return;
         }
 
         if (!checkColor(nextX, nextY, "#be1717")) {
-            list.add(new Position(nextX, nextY));
+            myPositionsList.add(new Position(nextX, nextY));
+            setColor(currPos.x, currPos.y, "#b66363");
         }
         if (!checkColor(currPos.x, currPos.y, "#be1717"))
             setColor(currPos.x, currPos.y, "#b66363");
 
-        currPos.x = nextX;
-        currPos.y = nextY;
+        if ( stylePrevLabel.equals(("-fx-background-color: #be1717"))) {
+            setColor(currPos.x, currPos.y, "#be1717");
+        }
+
+        stylePrevLabel = labels[(int) nextX][(int) nextY].getStyle();
+        currPos = new Position(nextX, nextY);
         setColor(nextX, nextY, "#690303");
         labels[(int) nextX][(int) nextY].setFocusTraversable(true);
     }
