@@ -1,9 +1,10 @@
 
-package com.example.paintio.players;
+package com.example.paintio;
 
-public class Position implements Comparable<Position>{
+public class Position implements Comparable<Position> {
     double x;
     double y;
+
     public Position(double x, double y) {
         this.x = x;
         this.y = y;
@@ -18,7 +19,13 @@ public class Position implements Comparable<Position>{
     }
 
     @Override
+    public boolean equals(Object obj) {
+        Position p = (Position) obj;
+        return (p.x == this.x && p.y == this.y);
+    }
+
+    @Override
     public int compareTo(Position o) {
-        return (o.x == this.x && o.y == this.y)?1:-1;
+        return (o.x == this.x && o.y == this.y) ? 1 : -1;
     }
 }
