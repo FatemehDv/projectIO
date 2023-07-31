@@ -61,14 +61,17 @@ public class GameComputer extends Players {
                     continue;
                 }
 
-                if (checkColor(nextX, nextY, "#6dc46d") ) {   //|| path.size() == 0
+                /*if (checkColor(nextX, nextY, "#6dc46d") ) {   //|| path.size() == 0
+                    break;
+                }*/
+
+                if ((checkColor(nextX, nextY, Color.moveColorList[0]) ||
+                        checkColor(nextX, nextY, Color.moveColorList[1]) ||
+                        checkColor(nextX, nextY, Color.moveColorList[2]) ||
+                        checkColor(nextX, nextY, Color.moveColorList[3]) ) &&
+                        !(checkColor(nextX, nextY,color.moveColor))){
                     break;
                 }
-
-                /*for(int n = 1; n < 4; n++)
-                    if (checkColor(nextX, nextY, Color.moveColorList[n]) &&
-                            !(Color.moveColorList[n].equals(color.moveColor)))
-                        break;*/
 
 
                 move(nextX, nextY);

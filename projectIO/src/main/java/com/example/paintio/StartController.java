@@ -28,9 +28,9 @@ public class StartController {
     private Pane mainAnchor;
     public void initialize() {
 
-        if (!SplashScreenController.isPlayed) {
+        /*if (!SplashScreenController.isPlayed) {
             LoadSplash();
-        }
+        }*/
 
         ObservableList<String> list_speed = FXCollections.observableArrayList("Slow", "Normal", "Fast");
         cm_speed.setItems(list_speed);

@@ -56,9 +56,6 @@ public class GamePlayer extends Players {
                 if (nextX >= maxSize || nextX < 0 || nextY >= maxSize || nextY < 0) {
                     continue;
                 }
-                /*if (checkColor(nextX, nextY, "#b66363")) {
-                    break;
-                }*/
 
                 if (checkColor(nextX, nextY, Color.moveColorList[1]) ||
                         checkColor(nextX, nextY, Color.moveColorList[2]) ||
