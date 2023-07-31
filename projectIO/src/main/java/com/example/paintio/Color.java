@@ -10,7 +10,7 @@ public class Color {
     }
 
 
-    static String[] ownColorList = {"#024d02", "#be1717", "#071852", "#756504"} ;
+    static String[] ownColorList = {"#024d02", "#690303", "#071852", "#756504"} ;
     static String[] moveColorList = {"#6dc46d", "#b66363", "#6376b6", "#b3a65d"};
-    static String[] backgroundColorList = {"#1b811b", "#690303", "#213d9c", "#9c8a21"};
+    static String[] backgroundColorList = {"#1b811b", "#be1717", "#213d9c", "#9c8a21"};
 }

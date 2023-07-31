@@ -1,5 +1,7 @@
 package com.example.paintio;
 
+import com.example.paintio.GameController;
+import com.example.paintio.Position;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Translate;
@@ -20,13 +22,13 @@ public class Players {
     public void runMethod(){}
     public void move(double nextX, double nextY) {}
 
-    public void completeColor(double x, double y, String color1, String color2){
+    public void completeColor(double x, double y, String backgroundColor, String ownColor){
 
         Polygon polygon = createPolygon(path, path.get(0).x, path.get(0).y);
         for (int i = 0; i < polygon.getPoints().size(); i += 2) {
             double x1 = polygon.getPoints().get(i);
             double y1 = polygon.getPoints().get(i + 1);
-            setColor(x1, y1, color1);
+            setColor(x1, y1, backgroundColor);
             if (!exist(new Position(x1, y1))) {
                 path.add(new Position(x1, y1));
             }
@@ -38,7 +40,7 @@ public class Players {
                         path.add(new Position(i, j));
                     } else if (checkColor(i, j, "#968080"))
                         continue;
-                    setColor(i, j, color1); //"#be1717"
+                    setColor(i, j, backgroundColor); //"#be1717"
                 }
             }
 
@@ -48,7 +50,7 @@ public class Players {
         gameController.calculatorScorePlayer();
         path.clear();
         currPos = new Position(x, y);
-        setColor(x, y, color2); //"#690303"
+        setColor(x, y, ownColor); //"#690303"
     }
 
     public boolean exist(Position position){
@@ -58,12 +60,12 @@ public class Players {
         return false;
     }
 
-    public boolean checkColor(double x, double y, String color){
-        return labels[(int) x][(int) y].getStyle().equals("-fx-background-color: " + color);
+    public boolean checkColor(double x, double y, String ownColor){
+        return labels[(int) x][(int) y].getStyle().equals("-fx-background-color: " + ownColor);
     }
 
-    public void setColor(double x, double y, String color){
-        labels[(int) x][(int) y].setStyle("-fx-background-color: " + color);
+    public void setColor(double x, double y, String ownColor){
+        labels[(int) x][(int) y].setStyle("-fx-background-color: " + ownColor);
     }
 
     public static Polygon createPolygon(List<Position> positions, double translateX, double translateY){

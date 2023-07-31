@@ -49,10 +49,14 @@ public class GameController {
         }
         pane.getChildren().add(gridPane);
         GameController gameController = this;
+
         for (int i  = 1; i < numberOfPlayer; i++ ) {
             new GameComputer(labels, gameController, Color.ownColorList[i],
                     Color.moveColorList[i], Color.backgroundColorList[i]);
         }
+
+        //new GameComputer(labels, gameController, Color.ownColorList[1],
+                //Color.moveColorList[1], Color.backgroundColorList[1]);
 
         new GamePlayer(labels, gameController);
 
@@ -78,7 +82,7 @@ public class GameController {
                     sum++;
             }
         }
-        tf_scorePC.setText(String.valueOf(sum));
+        //tf_scorePC.setText(String.valueOf(sum));
     }
     public void showAlert(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
