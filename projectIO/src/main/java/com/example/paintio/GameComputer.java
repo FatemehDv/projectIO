@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameComputer extends Players {
+public class GameComputer extends Players implements Runnable{
     Random random;
     Color color;
     public GameComputer(Label[][] labels, GameController gameController, String ownColor, String moveColor, String backgroundColor) {
@@ -14,7 +14,8 @@ public class GameComputer extends Players {
         this.labels = labels;
         random = new Random();
         init();
-        runMethod();
+        //runMethod();
+        run();
     }
 
     public void init() {
@@ -32,7 +33,36 @@ public class GameComputer extends Players {
         labels[rand ][rand + 1 ].setStyle("-fx-background-color: " + color.ownColor);
     }
 
-    public void runMethod() {
+    public void move(double nextX, double nextY) {
+        if (nextX >= maxSize || nextX < 0 || nextY >= maxSize || nextY < 0) {
+            return;
+        }
+
+        if (checkColor(nextX, nextY, color.moveColor) && random.nextInt(100) < 70)
+            return;
+
+        if (path.size() != 0 && checkColor(nextX, nextY, color.backgroundColor)) {
+            completeColor(nextX, nextY, color.backgroundColor, color.ownColor);
+            return;
+        }
+        if (!checkColor(nextX, nextY, color.backgroundColor)) {
+            path.add(new Position(nextX, nextY));
+            setColor(currPos.x, currPos.y, color.moveColor);
+        }
+        if (checkColor(currPos.x, currPos.y, color.backgroundColor))
+            setColor(currPos.x, currPos.y, color.moveColor);
+
+        if ( stylePrevLabel.equals(("-fx-background-color: " + color.backgroundColor))) {
+            setColor(currPos.x, currPos.y, color.backgroundColor);
+        }
+        stylePrevLabel = labels[(int) nextX][(int) nextY].getStyle();
+        currPos = new Position(nextX, nextY);
+        setColor(nextX, nextY, color.ownColor);
+        labels[(int) nextX][(int) nextY].setFocusTraversable(true);
+    }
+
+    @Override
+    public void run() {
         new Thread(() -> {
 
             while (true) {
@@ -84,34 +114,5 @@ public class GameComputer extends Players {
             System.out.println("Computer win.");
             System.exit(0);
         }).start();
-
-    }
-
-    public void move(double nextX, double nextY) {
-        if (nextX >= maxSize || nextX < 0 || nextY >= maxSize || nextY < 0) {
-            return;
-        }
-
-        if (checkColor(nextX, nextY, color.moveColor) && random.nextInt(100) < 70)
-            return;
-
-        if (path.size() != 0 && checkColor(nextX, nextY, color.backgroundColor)) {
-            completeColor(nextX, nextY, color.backgroundColor, color.ownColor);
-            return;
-        }
-        if (!checkColor(nextX, nextY, color.backgroundColor)) {
-            path.add(new Position(nextX, nextY));
-            setColor(currPos.x, currPos.y, color.moveColor);
-        }
-        if (checkColor(currPos.x, currPos.y, color.backgroundColor))
-            setColor(currPos.x, currPos.y, color.moveColor);
-
-        if ( stylePrevLabel.equals(("-fx-background-color: " + color.backgroundColor))) {
-            setColor(currPos.x, currPos.y, color.backgroundColor);
-        }
-        stylePrevLabel = labels[(int) nextX][(int) nextY].getStyle();
-        currPos = new Position(nextX, nextY);
-        setColor(nextX, nextY, color.ownColor);
-        labels[(int) nextX][(int) nextY].setFocusTraversable(true);
     }
 }
