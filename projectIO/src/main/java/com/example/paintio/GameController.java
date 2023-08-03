@@ -1,13 +1,19 @@
 package com.example.paintio;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.Optional;
 
 import static com.example.paintio.FixedValues.numberOfPlayer;
@@ -19,15 +25,20 @@ public class GameController {
     int maxSize = 25;
     Label[][] labels;
     @FXML
-    TextField tf_namePlayer, tf_scorePlayer, tf_scorePC;
+    TextField tf_namePlayer, tf_scorePlayer;
+    boolean[] threadPlayer;
+    volatile int numberThread = 0;
 
     public void initialize() {
-        this.gridPane = new GridPane();
-        tf_namePlayer.setText(FixedValues.name);
         init();
     }
 
     public void init() {
+        this.gridPane = new GridPane();
+        tf_namePlayer.setText(FixedValues.name);
+        threadPlayer= new boolean[4];
+        numberThread =0;
+
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(1);
         gridPane.setVgap(1);
@@ -49,18 +60,29 @@ public class GameController {
         }
         pane.getChildren().add(gridPane);
         GameController gameController = this;
-
-        for (int i  = 1; i < numberOfPlayer; i++ ) {
-            new GameComputer(labels, gameController, Color.ownColorList[i],
-                    Color.moveColorList[i], Color.backgroundColorList[i]);
+        new GamePlayer(labels, gameController);
+        threadPlayer[0] = true;
+        numberThread++;
+        for (int i = 1; i < numberOfPlayer; i++) {
+            new GameComputer(labels, gameController,i);
+            threadPlayer[i] = true;
+            numberThread++;
         }
 
-        //new GameComputer(labels, gameController, Color.ownColorList[1],
-                //Color.moveColorList[1], Color.backgroundColorList[1]);
+        new Thread(() -> {
+            while (numberThread > 1) Thread.onSpinWait();
+            threadPlayer = new boolean[4];
+            numberThread=0;
+            Platform.runLater(this::showAlert);
+        }).start();
 
-        new GamePlayer(labels, gameController);
+    }
+    public synchronized void paintLabel(double i , double j , String color){
+        labels[(int) i][(int) j].setStyle("-fx-background-color: "+color);
+    }
 
-        Runtime.getRuntime().addShutdownHook(new Thread(this::showAlert));
+    public synchronized boolean checkColor(double x, double y, String ownColor) {
+        return labels[(int) x][(int) y].getStyle().equals("-fx-background-color: " + ownColor);
     }
 
     public void calculatorScorePlayer() {
@@ -71,10 +93,13 @@ public class GameController {
                     sum++;
             }
         }
-        tf_scorePlayer.setText(String.valueOf(sum));
+        int finalSum = sum;
+        Platform.runLater(() -> {
+            tf_scorePlayer.setText(String.valueOf(finalSum));
+        });
     }
 
-    public void calculatorScoreComputer() {
+    /*public void calculatorScoreComputer() {
         int sum = 0;
         for (int i = 0; i < maxSize; i++) {
             for (int j = 0; j < maxSize; j++) {
@@ -83,23 +108,40 @@ public class GameController {
             }
         }
         //tf_scorePC.setText(String.valueOf(sum));
-    }
+    }*/
+
     public void showAlert(){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("بازی");
-        alert.setHeaderText("آیا می‌خواهید دوباره بازی کنید؟");
+        alert.setTitle("Paint IO");
+        alert.setHeaderText(null);
+        alert.setContentText("Do you want to play again?");
 
-        ButtonType playAgainButton = new ButtonType("دوباره بازی کردن");
-        ButtonType exitButton = new ButtonType("خروج از بازی", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType playAgainButton = new ButtonType("Again");
+        ButtonType exitButton = new ButtonType("Exit", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         alert.getButtonTypes().setAll(playAgainButton, exitButton);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == playAgainButton) {
-            // کدی که برای دوباره بازی کردن نیاز دارید
+            init();
         } else {
-            // کدی که برای خروج از بازی نیاز دارید
+            alert.close();
+            try {
+                backToStart();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }
-        alert.showAndWait();
+    }
+
+    public void backToStart() throws IOException {
+        Stage stage = (Stage) tf_namePlayer.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("start_pane.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
+        stage.setTitle("Game");
+        stage.setResizable(false);
+        stage.setScene(scene);
+
     }
 }

@@ -6,24 +6,24 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.paintio.GameController">
-    <Pane fx:id="pane" layoutX="10.0" layoutY="100.0" prefHeight="594.0" prefWidth="682.0" />
-    <Label layoutX="315.0" layoutY="20.0" text="Paint IO">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="694.0" style="-fx-background-color: CEE5D0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.paintio.GameController">
+    <Pane fx:id="pane" layoutX="7.0" layoutY="99.0" prefHeight="594.0" prefWidth="682.0" />
+    <Label layoutX="311.0" layoutY="18.0" text="Paint IO" textFill="#520168">
         <font>
             <Font name="Calibri Bold" size="24.0" />
         </font>
     </Label>
-    <Label layoutX="101.0" layoutY="52.0" text="Player :">
+    <Label layoutX="101.0" layoutY="52.0" text="Player :" textFill="#8600ab">
         <font>
             <Font size="18.0" />
         </font>
     </Label>
-    <TextField fx:id="tf_namePlayer" editable="false" focusTraversable="false" layoutX="161.0" layoutY="53.0" prefHeight="25.0" prefWidth="76.0" />
-    <Label layoutX="457.0" layoutY="52.0" text="Score :">
+    <TextField fx:id="tf_namePlayer" editable="false" focusTraversable="false" layoutX="161.0" layoutY="53.0" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: FDF4F5; -fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;" />
+    <Label layoutX="457.0" layoutY="52.0" text="Score :" textFill="#8600ab">
         <font>
             <Font size="18.0" />
         </font>
     </Label>
-    <TextField fx:id="tf_scorePlayer" editable="false" focusTraversable="false" layoutX="515.0" layoutY="53.0" prefHeight="25.0" prefWidth="76.0" />
-    <Line endX="394.00006103515625" layoutX="306.0" layoutY="90.0" startX="-306.0" />
+    <TextField fx:id="tf_scorePlayer" editable="false" focusTraversable="false" layoutX="515.0" layoutY="53.0" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: FDF4F5; -fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;" />
+    <Line endX="394.00006103515625" layoutX="306.0" layoutY="90.0" startX="-306.0" stroke="#5c0065" />
 </Pane>

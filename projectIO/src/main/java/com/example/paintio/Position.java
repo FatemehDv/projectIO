@@ -20,7 +20,8 @@ public class Position implements Comparable<Position> {
 
     @Override
     public boolean equals(Object obj) {
-        Position p = (Position) obj;
+        if (!(obj instanceof Position p))
+            return false;
         return (p.x == this.x && p.y == this.y);
     }
 

@@ -58,11 +58,11 @@ public class StartController {
             FixedValues.numberOfPlayer = num_player.getValue().equals("2") ? 2
                     : (num_player.getValue().equals("3") ? 3 : 4);
             FixedValues.speed = cm_speed.getValue().equals("Slow") ? 800
-                    : (cm_speed.getValue().equals("Normal") ? 500 : 200);
+                    : (cm_speed.getValue().equals("Normal") ? 600 : 300);
 
             Stage stage = (Stage) tf_name.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game_pane.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 700, 800);
+            Scene scene = new Scene(fxmlLoader.load(), 690, 800);
             stage.setTitle("Game");
             stage.setResizable(false);
             stage.setScene(scene);

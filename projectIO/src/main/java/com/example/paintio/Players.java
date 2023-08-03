@@ -16,70 +16,55 @@ public class Players {
     protected List<Position> path;
     GameController gameController;
     protected int directX = 0, directY = 0;
+    Color color;
 
 
     public void init(){}
-    public void runMethod(){}
+
     public void move(double nextX, double nextY) {}
 
     public void completeColor(double x, double y, String backgroundColor, String ownColor){
 
-        Polygon polygon = createPolygon(path, path.get(0).x, path.get(0).y);
+        Polygon polygon = createPolygon(path);
         for (int i = 0; i < polygon.getPoints().size(); i += 2) {
             double x1 = polygon.getPoints().get(i);
             double y1 = polygon.getPoints().get(i + 1);
-            setColor(x1, y1, backgroundColor);
-            if (!exist(new Position(x1, y1))) {
+            gameController.paintLabel(x1, y1, backgroundColor);
+            if (existPosition(new Position(x1, y1))) {
                 path.add(new Position(x1, y1));
             }
         }
         for (int i = 0; i < maxSize; i++) {
             for (int j = 0; j < maxSize; j++) {
                 if (polygon.contains(i, j)) {
-                    if (!exist(new Position(i, j))) {
+                    if (existPosition(new Position(i, j))) {
                         path.add(new Position(i, j));
-                    } else if (checkColor(i, j, "#968080"))
+                    } else if (gameController.checkColor(i, j, "#968080"))
                         continue;
-                    setColor(i, j, backgroundColor); //"#be1717"
+                    gameController.paintLabel(i, j, backgroundColor); //"#be1717"
                 }
             }
 
         }
         fixBug();
-        gameController.calculatorScoreComputer();
         gameController.calculatorScorePlayer();
         path.clear();
         currPos = new Position(x, y);
-        setColor(x, y, ownColor); //"#690303"
+        gameController.paintLabel(x, y, ownColor); //"#690303"
     }
 
-    public boolean exist(Position position){
+
+    public boolean existPosition(Position position) {
         for (Position position1 : path) {
-            if (position.compareTo(position1) > 0) return true;
+            if (position.compareTo(position1) > 0) return false;
         }
-        return false;
+        return true;
     }
 
-    public boolean checkColor(double x, double y, String ownColor){
-        return labels[(int) x][(int) y].getStyle().equals("-fx-background-color: " + ownColor);
-    }
-
-    public void setColor(double x, double y, String ownColor){
-        labels[(int) x][(int) y].setStyle("-fx-background-color: " + ownColor);
-    }
-
-    public static Polygon createPolygon(List<Position> positions, double translateX, double translateY){
-
+    public static Polygon createPolygon(List<Position> positions) {
         Polygon polygon = new Polygon();
-
-        Translate translate = new Translate(translateX, translateY);
-        for (Position point : positions) {
-            double transformedX = point.x;
-            double transformedY = point.y;
-            polygon.getPoints().addAll(transformedX, transformedY);
-        }
-        polygon.getTransforms().add(translate);
-
+        for (Position point : positions)
+            polygon.getPoints().addAll(point.x, point.y);
         return polygon;
     }
 
@@ -95,4 +80,57 @@ public class Players {
             }
         }).start();
     }
+    public void shootingA() {
+        int directX = this.directX;
+        int directY = this.directY;
+        final int[] pos = {(int) currPos.x, (int) currPos.y};
+
+        new Thread(() -> {
+            int x = pos[0];
+            int y = pos[1];
+
+
+            if (directY == -1 && y < 7)
+                return;
+            if (directY == 1 && y > 16)
+                return;
+            if (directX == -1 && x < 7)
+                return;
+            if (directX == 1 && x > 16)
+                return;
+
+            String prevStyle = labels[x][y].getStyle();
+            for (int i = 0; i < 6; i++) {
+                labels[x][y].setStyle(prevStyle);
+                x += directX;
+                y += directY;
+                prevStyle = labels[x][y].getStyle();
+                labels[x][y].setStyle("-fx-background-color: #282727");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            for (int i = x-1; i <= x+1 ; i++) {
+                for (int j = y-1; j <= y+1 ; j++) {
+                    checkPlayerDeath(i , j);
+                    labels[i][j].setStyle("-fx-background-color: " + color.backgroundColor);
+                }
+            }
+        }).start();
+    }
+    public void checkPlayerDeath(int i , int j){
+        for (int k = 0; k < 4; k++) {
+            if (labels[i][j].getStyle().equals("-fx-background-color: " + Color.ownColorList[k])) {
+                if (gameController.threadPlayer[k]){
+                    gameController.threadPlayer[k] = false;
+                    gameController.numberThread--;
+                }
+                return;
+            }
+        }
+    }
 }
+
