@@ -8,22 +8,37 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="694.0" style="-fx-background-color: CEE5D0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.paintio.GameController">
     <Pane fx:id="pane" layoutX="7.0" layoutY="99.0" prefHeight="594.0" prefWidth="682.0" />
-    <Label layoutX="311.0" layoutY="18.0" text="Paint IO" textFill="#520168">
+    <Label layoutX="28.0" layoutY="54.0" text="Player :" textFill="#8600ab">
         <font>
-            <Font name="Calibri Bold" size="24.0" />
+            <Font name="BM HANNA Pro OTF" size="16.0" />
         </font>
     </Label>
-    <Label layoutX="101.0" layoutY="52.0" text="Player :" textFill="#8600ab">
+    <TextField fx:id="tf_namePlayer" editable="false" focusTraversable="false" layoutX="87.0" layoutY="53.0" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: FDF4F5; -fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;">
+      <font>
+         <Font size="10.0" />
+      </font></TextField>
+    <Label layoutX="293.0" layoutY="55.0" text="Score :" textFill="#8600ab">
         <font>
-            <Font size="18.0" />
+            <Font name="BM HANNA Pro OTF" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="tf_namePlayer" editable="false" focusTraversable="false" layoutX="161.0" layoutY="53.0" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: FDF4F5; -fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;" />
-    <Label layoutX="457.0" layoutY="52.0" text="Score :" textFill="#8600ab">
+    <TextField fx:id="tf_scorePlayer" editable="false" focusTraversable="false" layoutX="346.0" layoutY="53.0" prefHeight="25.0" prefWidth="65.0" style="-fx-background-color: FDF4F5; -fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;">
+      <font>
+         <Font size="10.0" />
+      </font></TextField>
+    <Label layoutX="541.0" layoutY="55.0" text="Shoot A : " textFill="#8600ab">
         <font>
-            <Font size="18.0" />
+            <Font name="BM HANNA Pro OTF" size="16.0" />
         </font>
     </Label>
-    <TextField fx:id="tf_scorePlayer" editable="false" focusTraversable="false" layoutX="515.0" layoutY="53.0" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: FDF4F5; -fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;" />
+    <TextField fx:id="tf_countShoot" editable="false" focusTraversable="false" layoutX="611.0" layoutY="53.0" prefHeight="25.0" prefWidth="56.0" style="-fx-background-color: FDF4F5; -fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;">
+      <font>
+         <Font size="10.0" />
+      </font></TextField>
     <Line endX="394.00006103515625" layoutX="306.0" layoutY="90.0" startX="-306.0" stroke="#5c0065" />
+   <Label alignment="CENTER" layoutX="275.0" layoutY="-20.0" prefHeight="92.0" prefWidth="150.0" text="PaintIO" textFill="#520168">
+      <font>
+         <Font name="Lava Telugu Regular" size="32.0" />
+      </font>
+   </Label>
 </Pane>

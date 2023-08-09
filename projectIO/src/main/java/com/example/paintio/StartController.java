@@ -3,18 +3,21 @@ package com.example.paintio;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class StartController {
 
@@ -26,6 +29,7 @@ public class StartController {
     ComboBox<String> num_player;
     @FXML
     private Pane mainAnchor;
+
     public void initialize() {
 
         if (!SplashScreenController.isPlayed) {
@@ -36,7 +40,7 @@ public class StartController {
         cm_speed.setItems(list_speed);
         cm_speed.setValue("Slow");
 
-        ObservableList<String> number_player = FXCollections.observableArrayList("2","3","4");
+        ObservableList<String> number_player = FXCollections.observableArrayList("2", "3", "4");
         num_player.setItems(number_player);
         num_player.setValue("2");
 
@@ -93,7 +97,7 @@ public class StartController {
             });
             faidOut.setOnFinished((e) -> {
                 try {
-                    Pane anchorPane1 = FXMLLoader.load(getClass().getResource("start_pane.fxml"));
+                    Pane anchorPane1 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("start_pane.fxml")));
                     mainAnchor.getChildren().setAll(anchorPane1);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -113,5 +117,13 @@ public class StartController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void gameGuide(ActionEvent event) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("guide.fxml"));
+        Stage s1 = (Stage) ( (Node) event.getSource() ).getScene().getWindow();
+        Scene scene = new Scene (parent);
+        s1.setScene(scene);
+        s1.show();
     }
 }

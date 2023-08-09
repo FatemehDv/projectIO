@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: CEE5D0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.paintio.GuideController">
+   <children>
+      <Label layoutX="208.0" layoutY="4.0" prefHeight="64.0" prefWidth="85.0" text="PaintIO" textFill="#520168">
+         <font>
+            <Font name="Lava Telugu Regular" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="145.0" layoutY="153.0" text="Gun A :" textFill="#520168">
+         <font>
+            <Font name="BM HANNA Pro OTF" size="18.0" />
+         </font></Label>
+      <Label layoutX="146.0" layoutY="291.0" text="Gun B :" textFill="#520168">
+         <font>
+            <Font name="BM HANNA Pro OTF" size="18.0" />
+         </font></Label>
+      <Button layoutX="28.0" layoutY="24.0" mnemonicParsing="false" onAction="#back" prefHeight="21.0" prefWidth="52.0" style="-fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;" text="Back" textFill="#520168">
+         <font>
+            <Font name="BM HANNA Pro OTF" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="234.0" layoutY="135.0" prefHeight="24.0" prefWidth="61.0" text="Enter" textFill="#8600ab">
+         <font>
+            <Font name="Lao MN" size="19.0" />
+         </font></Label>
+      <Label layoutX="234.0" layoutY="275.0" prefHeight="24.0" prefWidth="82.0" text="Space" textFill="#8600ab">
+         <font>
+            <Font name="Lao MN" size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="234.0" layoutY="169.0" prefHeight="24.0" prefWidth="128.0" text="Right click" textFill="#8600ab">
+         <font>
+            <Font name="Lao MN" size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="235.0" layoutY="308.0" prefHeight="24.0" prefWidth="128.0" text="Left click" textFill="#8600ab">
+         <font>
+            <Font name="Lao MN" size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="235.0" layoutY="201.0" prefHeight="24.0" prefWidth="201.0" text="with this gun," textFill="#b635da">
+         <font>
+            <Font name="Baloo Bhaina 2 Regular" size="13.0" />
+         </font></Label>
+      <Label layoutX="235.0" layoutY="327.0" prefHeight="54.0" prefWidth="201.0" text="with this gun," textFill="#b635da">
+         <font>
+            <Font name="Baloo Bhaina 2 Regular" size="13.0" />
+         </font></Label>
+      <Label layoutX="235.0" layoutY="343.0" prefHeight="54.0" prefWidth="227.0" text="you can shoot once every three seconds" textFill="#b635da">
+         <font>
+            <Font name="Baloo Bhaina 2 Regular" size="13.0" />
+         </font></Label>
+      <Label layoutX="236.0" layoutY="216.0" prefHeight="24.0" prefWidth="201.0" text="you can only shoot 5 times" textFill="#b635da">
+         <font>
+            <Font name="Baloo Bhaina 2 Regular" size="13.0" />
+         </font></Label>
+   </children>
+</Pane>

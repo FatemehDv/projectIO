@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
@@ -15,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.example.paintio.FixedValues.numberOfPlayer;
 
@@ -25,9 +27,11 @@ public class GameController {
     int maxSize = 25;
     Label[][] labels;
     @FXML
-    TextField tf_namePlayer, tf_scorePlayer;
+    TextField tf_namePlayer, tf_scorePlayer, tf_countShoot;
+
     boolean[] threadPlayer;
-    volatile int numberThread = 0;
+
+    AtomicInteger counterThread;
 
     public void initialize() {
         init();
@@ -36,8 +40,8 @@ public class GameController {
     public void init() {
         this.gridPane = new GridPane();
         tf_namePlayer.setText(FixedValues.name);
-        threadPlayer= new boolean[4];
-        numberThread =0;
+        threadPlayer = new boolean[4];
+        counterThread = new AtomicInteger(0);
 
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(1);
@@ -53,36 +57,46 @@ public class GameController {
             for (int j = 0; j < maxSize; j++) {
                 labels[i][j] = new Label("");
                 GridPane.setHalignment(labels[i][j], HPos.CENTER);
+                GridPane.setValignment(labels[i][j], VPos.CENTER);
                 labels[i][j].setMaxSize(25, 25);
                 labels[i][j].setStyle("-fx-background-color: #968080");
                 gridPane.add(labels[i][j], i, j);
             }
         }
+
         pane.getChildren().add(gridPane);
-        GameController gameController = this;
-        new GamePlayer(labels, gameController);
+
         threadPlayer[0] = true;
-        numberThread++;
+        counterThread.getAndIncrement();
+        new GamePlayer(labels, this);
+
         for (int i = 1; i < numberOfPlayer; i++) {
-            new GameComputer(labels, gameController,i);
             threadPlayer[i] = true;
-            numberThread++;
+            counterThread.getAndIncrement();
+            new GameComputer(labels, this, i);
         }
 
         new Thread(() -> {
-            while (numberThread > 1) Thread.onSpinWait();
+            while (threadPlayer[0] && counterThread.get() > 1) Thread.onSpinWait();
+            String text;
+            if (counterThread.get() > 1)
+                text = "you lost";
+            else
+                text = "you win";
+            String finalText = text;
             threadPlayer = new boolean[4];
-            numberThread=0;
-            Platform.runLater(this::showAlert);
+            counterThread.set(0);
+            Platform.runLater(() -> showAlert(finalText));
         }).start();
 
     }
-    public synchronized void paintLabel(double i , double j , String color){
-        labels[(int) i][(int) j].setStyle("-fx-background-color: "+color);
+
+    public synchronized void paintLabel(int i, int j, String color) {
+        labels[i][j].setStyle("-fx-background-color: " + color);
     }
 
-    public synchronized boolean checkColor(double x, double y, String ownColor) {
-        return labels[(int) x][(int) y].getStyle().equals("-fx-background-color: " + ownColor);
+    public synchronized boolean checkColor(int x, int y, String ownColor) {
+        return labels[x][y].getStyle().equals("-fx-background-color: " + ownColor);
     }
 
     public void calculatorScorePlayer() {
@@ -99,22 +113,11 @@ public class GameController {
         });
     }
 
-    /*public void calculatorScoreComputer() {
-        int sum = 0;
-        for (int i = 0; i < maxSize; i++) {
-            for (int j = 0; j < maxSize; j++) {
-                if (labels[i][j].getStyle().equals("-fx-background-color: #be1717"))
-                    sum++;
-            }
-        }
-        //tf_scorePC.setText(String.valueOf(sum));
-    }*/
-
-    public void showAlert(){
+    public void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Paint IO");
         alert.setHeaderText(null);
-        alert.setContentText("Do you want to play again?");
+        alert.setContentText(message + "\nDo you want to play again?");
 
         ButtonType playAgainButton = new ButtonType("Again");
         ButtonType exitButton = new ButtonType("Exit", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -122,16 +125,18 @@ public class GameController {
         alert.getButtonTypes().setAll(playAgainButton, exitButton);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == playAgainButton) {
-            init();
-        } else {
-            alert.close();
-            try {
-                backToStart();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        if (result.isPresent()) {
+            if (result.get() == playAgainButton) {
+                init();
+            } else {
+                alert.close();
+                try {
+                    backToStart();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
+            }
         }
     }
 
@@ -144,4 +149,5 @@ public class GameController {
         stage.setScene(scene);
 
     }
+
 }

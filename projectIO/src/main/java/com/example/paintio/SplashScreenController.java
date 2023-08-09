@@ -1,6 +1,7 @@
 package com.example.paintio;
 
 import javafx.fxml.Initializable;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 

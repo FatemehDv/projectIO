@@ -8,28 +8,49 @@
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: CEE5D0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.paintio.StartController">
-    <Label layoutX="213.0" layoutY="30.0" text="PaintIO" textFill="#520168">
+    <Label layoutX="208.0" layoutY="11.0" text="PaintIO" textFill="#520168">
         <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="Lava Telugu Regular" size="24.0" />
         </font>
     </Label>
-    <Label layoutX="164.0" layoutY="141.0" text="Name :" textFill="#8600ab" />
-    <TextField fx:id="tf_name" layoutX="225.0" layoutY="137.0" prefHeight="28.0" prefWidth="159.0" style="-fx-alignment: center; -fx-background-color: F9F5F6; -fx-background-radius: 3; -fx-border-radius: 3; -fx-border-color: DBC4F0;" />
-    <Label layoutX="131.0" layoutY="189.0" text="Game speed :" textFill="#8600ab" />
-    <ComboBox fx:id="cm_speed" layoutX="226.0" layoutY="184.0" prefHeight="26.0" prefWidth="159.0" promptText="easy" style="-fx-border-color: DBC4F0; -fx-border-width: 1; -fx-background-radius: 3; -fx-border-radius: 3;" />
-    <Label layoutX="136.0" layoutY="286.0" text="Game level :" textFill="#8600ab" />
+    <Label layoutX="163.0" layoutY="134.0" text="Name :" textFill="#8600ab">
+      <font>
+         <Font name="Lao MN" size="13.0" />
+      </font></Label>
+    <TextField fx:id="tf_name" layoutX="225.0" layoutY="130.0" prefHeight="28.0" prefWidth="159.0" style="-fx-background-color: F9F5F6; -fx-background-radius: 3; -fx-border-radius: 3; -fx-border-color: DBC4F0;" />
+    <Label layoutX="122.0" layoutY="182.0" text="Game speed :" textFill="#8600ab">
+      <font>
+         <Font name="Lao MN" size="13.0" />
+      </font></Label>
+    <ComboBox fx:id="cm_speed" layoutX="226.0" layoutY="177.0" prefHeight="26.0" prefWidth="159.0" promptText="easy" style="-fx-border-color: DBC4F0; -fx-border-width: 1; -fx-background-radius: 3; -fx-border-radius: 3;" />
+    <Label layoutX="131.0" layoutY="279.0" text="Game level :" textFill="#8600ab">
+      <font>
+         <Font name="Lao MN" size="13.0" />
+      </font></Label>
     <Button layoutX="89.0" layoutY="418.0" mnemonicParsing="false" onAction="#exit" prefHeight="37.0" prefWidth="74.0" style="-fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;" text="Exit" textFill="#520168">
         <font>
-            <Font size="14.0" />
+            <Font name="BM HANNA Pro OTF" size="14.0" />
         </font>
     </Button>
     <Button layoutX="341.0" layoutY="418.0" mnemonicParsing="false" onAction="#start" prefHeight="37.0" prefWidth="74.0" style="-fx-border-color: DBC4F0; -fx-background-radius: 5; -fx-border-radius: 5;" text="Start" textFill="#520168">
         <font>
-            <Font size="14.0" />
+            <Font name="BM HANNA Pro OTF" size="14.0" />
         </font>
     </Button>
-    <ComboBox fx:id="cm_level" layoutX="226.0" layoutY="282.0" prefHeight="26.0" prefWidth="159.0" promptText="easy" style="-fx-border-color: DBC4F0; -fx-background-radius: 3; -fx-border-radius: 3;" />
-   <ComboBox fx:id="num_player" layoutX="226.0" layoutY="234.0" prefHeight="26.0" prefWidth="159.0" promptText="2" style="-fx-border-color: DBC4F0; -fx-background-radius: 3; -fx-border-radius: 3;" />
-   <Label layoutX="100.0" layoutY="239.0" text="Number of players:" textFill="#8600ab" />
+    <ComboBox fx:id="cm_level" layoutX="226.0" layoutY="275.0" prefHeight="26.0" prefWidth="159.0" promptText="easy" style="-fx-border-color: DBC4F0; -fx-background-radius: 3; -fx-border-radius: 3;" />
+   <ComboBox fx:id="num_player" layoutX="226.0" layoutY="227.0" prefHeight="26.0" prefWidth="159.0" promptText="2" style="-fx-border-color: DBC4F0; -fx-background-radius: 3; -fx-border-radius: 3;" />
+   <Label layoutX="85.0" layoutY="232.0" text="Number of players :" textFill="#8600ab">
+      <font>
+         <Font name="Lao MN" size="13.0" />
+      </font></Label>
+   <Button fx:id="guide" alignment="CENTER" layoutX="226.0" layoutY="321.0" mnemonicParsing="false" onAction="#gameGuide" prefHeight="28.0" prefWidth="159.0" style="-fx-border-color: DBC4F0; -fx-background-radius: 3; -fx-border-radius: 3;" text="Guide" textFill="#111011">
+      <font>
+         <Font size="11.0" />
+      </font>
+   </Button>
+   <Label layoutX="125.0" layoutY="327.0" text="Game guide :" textFill="#8600ab">
+      <font>
+         <Font name="Lao MN" size="13.0" />
+      </font></Label>
 
 </Pane>

@@ -1,19 +1,23 @@
 package com.example.paintio;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
+
 import java.util.ArrayList;
 
-public class GamePlayer extends Players{
-
+public class GamePlayer extends Players {
     public GamePlayer(Label[][] labels, GameController gameController) {
-        super.color = new Color(Color.ownColorList[0], Color.moveColorList[0], Color.backgroundColorList[0]);
-
+        super(0);
+        super.color = new Color(Color.ownColorList[numberPlayer]
+                , Color.moveColorList[numberPlayer], Color.backgroundColorList[numberPlayer]);
         this.path = new ArrayList<>();
         this.gameController = gameController;
         this.labels = labels;
         init();
         directX = 1;
+        gameController.tf_countShoot.setText(String.valueOf(countShootA));
         new Thread(this::runMethod).start();
     }
 
@@ -21,7 +25,7 @@ public class GamePlayer extends Players{
         for (int i = 0; i < maxSize; i++) {
             for (int j = 0; j < maxSize; j++) {
                 labels[i][j].setOnKeyPressed(keyEvent -> {
-                    labels[(int) currPos.x][(int) currPos.y].setFocusTraversable(true);
+                    labels[currPos.x][currPos.y].setFocusTraversable(true);
                     if (keyEvent.getCode() == KeyCode.UP) {
                         directX = 0;
                         directY = -1;
@@ -34,11 +38,24 @@ public class GamePlayer extends Players{
                     } else if (keyEvent.getCode() == KeyCode.RIGHT) {
                         directX = 1;
                         directY = 0;
-                    } else if (keyEvent.getCode() == KeyCode.SPACE)
-                        shootingA();
+                    }
+                    else if (keyEvent.getCode() == KeyCode.ENTER) {
+                        if (countShootA > 0)
+                            shootingA();
+                    }else if (keyEvent.getCode() == KeyCode.SPACE) {
+                        if (timeShootB <= 0)
+                            shootingB();
+                    }
                 });
-                labels[i][j].setOnMouseClicked(mouseEvent -> shootingA() );
-
+                labels[i][j].setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                        if (countShootA > 0)
+                            shootingA();
+                    } else {
+                        if (timeShootB <= 0)
+                            shootingB();
+                    }
+                });
             }
         }
         for (int i = 8; i <= 10; i++) {
@@ -49,10 +66,10 @@ public class GamePlayer extends Players{
         }
         currPos = new Position(8, 8);
         gameController.paintLabel(8, 8, color.ownColor);
-        labels[8][8].requestFocus();
+        labels[currPos.x][currPos.y].setFocusTraversable(true);
     }
 
-    public void move(double nextX, double nextY) {
+    public void move(int nextX, int nextY) {
         if (path.size() != 0 && gameController.checkColor(nextX, nextY, color.backgroundColor)) {
             completeColor(nextX, nextY, color.backgroundColor, color.ownColor);
             return;
@@ -69,38 +86,43 @@ public class GamePlayer extends Players{
             gameController.paintLabel(currPos.x, currPos.y, color.backgroundColor);
         }
 
-        stylePrevLabel = labels[(int) nextX][(int) nextY].getStyle();
+        stylePrevLabel = labels[nextX][nextY].getStyle();
         currPos = new Position(nextX, nextY);
         gameController.paintLabel(nextX, nextY, color.ownColor);
-        labels[(int) currPos.x][(int) currPos.y].setFocusTraversable(true);
+        labels[currPos.x][currPos.y].setFocusTraversable(true);
+        Platform.runLater(() -> labels[currPos.x][currPos.y].requestFocus());
     }
 
     public void runMethod() {
-        while (gameController.threadPlayer[0]) {
-            double nextX = currPos.x + directX;
-            double nextY = currPos.y + directY;
+        WHILE:
+        while (gameController.threadPlayer[numberPlayer]) {
+            labels[currPos.x][currPos.y].setFocusTraversable(true);
+            int nextX = currPos.x + directX;
+            int nextY = currPos.y + directY;
             if (nextX >= maxSize || nextX < 0 || nextY >= maxSize || nextY < 0) {
                 continue;
             }
-
-            if (gameController.checkColor(nextX, nextY, Color.moveColorList[1]) ||
-                    gameController.checkColor(nextX, nextY, Color.moveColorList[2]) ||
-                    gameController.checkColor(nextX, nextY, Color.moveColorList[3])) {
-                gameController.numberThread--;
-                gameController.threadPlayer[0] = false;
-                break;
+            for (int i = 0; i < 4; i++) {
+                if (gameController.checkColor(nextX, nextY, Color.ownColorList[i])) {
+                    lost(i);
+                    lost(numberPlayer);
+                    break WHILE;
+                }
             }
 
-
+            int n = findNumberPlayer(nextX, nextY);
+            if (n != -1) {
+                lost(n);
+            }
             move(nextX, nextY);
-
+            if (timeShootB > 0)
+                timeShootB -= FixedValues.speed / 1000.0;
             try {
                 Thread.sleep(FixedValues.speed);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println("You win.");
     }
 
 }
